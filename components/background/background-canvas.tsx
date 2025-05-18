@@ -1,9 +1,17 @@
-"use client";
-
 import { useRef, useEffect } from "react";
 import * as THREE from "three";
 import { useFrame, Canvas } from "@react-three/fiber";
 import { Stars, useTexture } from "@react-three/drei";
+
+interface PlanetProps {
+  position?: [number, number, number];
+  size?: number;
+  color?: string;
+  orbitRadius?: number;
+  orbitSpeed?: number;
+  rotationSpeed?: number;
+  textureUrl?: string;
+}
 
 function Planet({ 
   position = [0, 0, 0], 
@@ -13,7 +21,7 @@ function Planet({
   orbitSpeed = 0.01,
   rotationSpeed = 0.01,
   textureUrl
-}) {
+}: PlanetProps) {
   const meshRef = useRef<THREE.Mesh>(null);
   const angle = useRef(Math.random() * Math.PI * 2);
   const texture = textureUrl ? useTexture(textureUrl) : null;
@@ -43,7 +51,13 @@ function Planet({
   );
 }
 
-function OrbitalRing({ radius = 10, color = "#ffffff", opacity = 0.1 }) {
+interface OrbitalRingProps {
+  radius?: number;
+  color?: string;
+  opacity?: number;
+}
+
+function OrbitalRing({ radius = 10, color = "#ffffff", opacity = 0.1 }: OrbitalRingProps) {
   return (
     <mesh rotation={[Math.PI / 2, 0, 0]}>
       <ringGeometry args={[radius - 0.1, radius + 0.1, 64]} />
@@ -52,7 +66,11 @@ function OrbitalRing({ radius = 10, color = "#ffffff", opacity = 0.1 }) {
   );
 }
 
-function SolarSystem({ intensity = 1 }) {
+interface SolarSystemProps {
+  intensity?: number;
+}
+
+function SolarSystem({ intensity = 1 }: SolarSystemProps) {
   const groupRef = useRef<THREE.Group>(null);
   const mousePosition = useRef({ x: 0, y: 0 });
   
@@ -155,4 +173,3 @@ export default function BackgroundCanvas({ intensity = 1 }: BackgroundCanvasProp
       </Canvas>
     </div>
   );
-}
