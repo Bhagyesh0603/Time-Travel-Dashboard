@@ -173,3 +173,4 @@ export default function BackgroundCanvas({ intensity = 1 }: BackgroundCanvasProp
       </Canvas>
     </div>
   );
+}
